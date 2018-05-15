@@ -8,12 +8,16 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case USERS.UPDATING:
+        case USERS.CREATING:
         case USERS.FETCH_LOGIN:
             return {
                 ...state,
                 ...initialState,
                 loading: true
             };
+        case USERS.CREATED:
+        case USERS.UPDATED:
         case USERS.LOGIN:
             return {
                 ...state,
@@ -31,6 +35,18 @@ export default (state = initialState, action) => {
         case USERS.LOGOUT:
             return {
                 ...initialState
+            };
+        case USERS.UPDATE_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.err
+            };
+        case USERS.CREATE_ERROR:
+            return {
+                ...initialState,
+                loading: false,
+                error: action.err
             };
         default:
             return state;
