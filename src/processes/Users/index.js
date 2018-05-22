@@ -8,6 +8,8 @@ import {
     errorUpdateAction, creatingAction, createdAction, errorCreateAction
 } from '../../actions/Users/index';
 
+import { updateGeolocationAction } from '../../actions/Gps/index';
+
 import axios from 'axios';
 
 export function loginProcess(dispatch, login) {
@@ -54,4 +56,17 @@ export function createUserProcess(dispatch, newUser) {
             dispatch( errorCreateAction('User creation error !') );
         }
     })
+}
+
+export function updateGeolocationProcess(dispatch, user, coords) {
+    dispatch( updateGeolocationAction(coords) );
+
+    let url = 'https://noodledistress.herokuapp.com/';
+    let endPoint = 'user/';
+    user = {
+        ...user,
+        latitude: coords.lat,
+        longitude: coords.lng
+    };
+    axios.put(url+endPoint, JSON.stringify(user));
 }
